@@ -1,0 +1,92 @@
+/* allorder.css */
+.all-orders-container{
+  width: 100%;
+}
+.main_order_list_container{
+  display: flex;
+  flex-wrap: wrap;
+gap: 40px;
+}
+.order-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.all-orders-container {
+  padding: 20px;
+
+}
+
+.all_orders_status_buttons {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.admin_add_product_button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color:var(--gay-bg-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+
+.admin_add_product_button.selectedStatus {
+  background-color: #008CBA !important;
+}
+
+
+
+.order_list_container {
+  width: 100%;
+  max-height: 551px;
+  min-height: 550px;
+  overflow-y: scroll;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.order_item_details {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.all_order_thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.order_details, .all_order_shippingAddress, .all_order_other_details, .all_order_price_details {
+  margin-top: 10px;
+}
+
+.all_order_details div {
+  margin-bottom: 5px;
+}
+
+.all_order_buttons_div {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.all_order_order_view_button, .all_order_order_update_button {
+  padding: 8px 16px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #005f6b;
+  text-decoration: none;
+}
+
+.all_order_order_view_button:hover, .all_order_order_update_button:hover {
+background-color: var(--gay-bg-color);
+}

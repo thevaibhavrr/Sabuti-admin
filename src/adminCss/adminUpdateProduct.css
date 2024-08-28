@@ -1,0 +1,162 @@
+.main_update_product_page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.update-product-container {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.back_arrow_icon {
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.back_arrow_icon:hover {
+  transform: translateX(-3px);
+}
+
+.update-product-container h2 {
+  margin-bottom: 20px;
+  color: #343a40;
+}
+
+.update-product-container form div {
+  margin-bottom: 20px;
+}
+
+.update-product-container form label {
+  font-weight: bold;
+}
+
+.update-product-container form input[type="text"],
+.update-product-container form textarea,
+.update-product-container form input[type="number"],
+.update-product-container form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.update-product-container form textarea {
+  height: 100px;
+}
+
+.update-product-container form .update_product_Image_section {
+  margin-bottom: 20px;
+}
+
+.update-product-container form .image_wrapper {
+  margin-bottom: 10px;
+}
+
+.update-product-container form .image_wrapper img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.update-product-container form .remove_image_button {
+  padding: 5px 10px;
+}
+
+.update-product-container form .add_more_images_button {
+  padding: 10px;
+}
+
+.update-product-container form .update_product_image_thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.update_product_button{
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+/* Styles for each individual image container */
+.update-product-container form .update_image_container_single_image {
+  margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.update-product-container form .update_image_container_single_image img {
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.update-product-container form .update_image_container_single_image input[type="file"] {
+  flex: 1; /* Take remaining space */
+}
+
+.update-product-container form .update_image_container_single_image progress {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.update-product-container form .update_image_container_single_image button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Styles for the "Add More Images" button */
+.update-product-container form .add_more_image_button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Styles for the thumbnail */
+.update-product-container form .update_product_image_thumbnail {
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Styles for the submit button */
+.update-product-container form .admin_panel_button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.update-product-container form .admin_panel_button:hover {
+  background-color: #007bff;
+}
