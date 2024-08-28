@@ -33,11 +33,13 @@ code {
   /* --main-white-color: #EEEEEE; */
    /* Colors */
    --gay-bg-color: #5fa4a7;
-   --primary-color: #2c3e50;
+   --primary-color: #134105f0;
    --secondary-color: #2ecc71;
    --accent-color: #e74c3c;
    --text-color: #333;
    --bg-color: #f0f0f0;
+   /* login page */
+   --login-main-page : #036811;
  
    /* Fonts */
    --heading-font: 'Roboto', sans-serif;

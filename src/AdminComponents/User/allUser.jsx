@@ -38,7 +38,7 @@ function AllUser() {
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td>
-                                <img loading="lazy" src={user.userImage} classNameName='admin_all_user_image' /> </td>
+                                <img loading="lazy" src={user.userImage} classNameName='admin_all_user_image' style={{  maxWidth: "70px", maxHeight: "70px" }} /> </td>
                             <td>{user.firstName} {user.lastName}</td>
                             <td>{user.email}</td>
                             <td>{user.mobileNumber}</td>

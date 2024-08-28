@@ -146,18 +146,6 @@ function AdminaddProduct() {
         console.log(file);
         const uploadedImageUrl = await uploadToCloudinary(file, setUploadProgress);
 
-        // const data = new FormData();
-        // data.append("file", file);
-        // data.append("upload_preset", "wnsxe2pa");
-
-        // const response = await axios.post(`https://api.cloudinary.com/v1_1/dzvsrft15/image/upload`, data, {
-        //   onUploadProgress: (progressEvent) => {
-        //     const { loaded, total } = progressEvent;
-        //     const percentage = Math.floor((loaded * 100) / total);
-        //     setThumbnailUploadProgress(percentage);
-        //   },
-        // });
-
         // if (response.status === 200) {
           const imageURL = uploadedImageUrl;
           setThumbnail(imageURL);

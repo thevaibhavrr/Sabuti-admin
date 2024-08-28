@@ -26,7 +26,7 @@ function Adminsidebar() {
           <div className="admin_sidebar_header_logo">
             <img loading="lazy"
               alt="logo"
-              src={Logo}
+              src="https://res.cloudinary.com/dunzldpvc/image/upload/v1724845466/S-logo.2bd09d912f48dc27084b_hcprcw.png"
               className="admin_sidebar_header_logo_img"
             />
           </div>

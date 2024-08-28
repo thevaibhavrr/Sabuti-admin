@@ -7,7 +7,7 @@ export const makeApi = async (
 ) => {
   try {
     const token = localStorage.getItem("token");
-    
+
 
     if (!token && endpoint.includes("/auth-required")) {
       throw new Error("Please login to access this resource.");
@@ -20,8 +20,13 @@ export const makeApi = async (
 
     const config = {
       method,
-      // url: `https://pajiweb.onrender.com${endpoint}`,
-      url: `https://sk-backend-uvv5.onrender.com${endpoint}`,
+      // url: `https://pajiweb.onrender.com${endpoint}`, 
+      // url: `https://sk-backend-uvv5.onrender.com${endpoint}`,
+
+
+
+
+      url: `https://saburi-backend.onrender.com${endpoint}`,
       // url:"http://localhost:7000"+endpoint,
       headers,
       data

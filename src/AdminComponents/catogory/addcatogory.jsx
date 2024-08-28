@@ -2,19 +2,23 @@ import React, { useState } from "react";
 import "../../adminCss/catogory/AddCategory.css"; 
 import { makeApi } from "../../api/callApi";
 import { Link } from "react-router-dom";
+import uploadToCloudinary from "../../utils/cloudinaryUpload";
 
 const Addcatogory = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleSubmit = async (e) => {
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
+  const [thumbnail, setThumbnail] = useState("");
+  const handleSubmit = async (e) => { 
     e.preventDefault();
     try {
       //   const response = await axios.post('/api/add-category', { name, description });
       const response = await makeApi("/api/create-category", "POST", {
         name,
         description,
+        thumbnail,
       });
       if (response.status === 201) {
         alert("Category added successfully");
@@ -24,6 +28,25 @@ const Addcatogory = () => {
     } catch (error) {
       console.error("Error adding category:", error);
       setErrorMessage("Error adding category. Please try again.");
+    }
+  };
+
+  
+  const handleThumbnailUpload = async (event) => {
+    try {
+      const file = event.target.files[0];
+      if (file) {
+        console.log(file);
+        const uploadedImageUrl = await uploadToCloudinary(file, setUploadProgress);
+
+        // if (response.status === 200) {
+          const imageURL = uploadedImageUrl;
+          setThumbnail(imageURL);
+          setThumbnailUploadProgress(100);
+        // }
+      }
+    } catch (error) {
+      console.log("Thumbnail upload error", error);
     }
   };
 
@@ -67,6 +90,19 @@ const Addcatogory = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description"> Catogory Image:</label>
+            <input
+              type="file"
+              name="file"
+              id="file"
+              className="file-upload-input"
+              onChange={handleThumbnailUpload}
+            />
+          </div>
+          <div>
+            <img src={thumbnail} alt="Thumbnail" style={{ maxWidth: "100px" }} />
           </div>
           <button
             type="submit"
