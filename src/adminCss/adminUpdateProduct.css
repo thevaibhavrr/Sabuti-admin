@@ -160,3 +160,42 @@
 .update-product-container form .admin_panel_button:hover {
   background-color: #007bff;
 }
+
+
+/*  */
+/* Additional styles for size section */
+.size-section {
+  margin-bottom: 20px;
+}
+
+.size-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.size-row input {
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  flex: 1;
+}
+
+.size-row button {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-more-sizes-button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -1,35 +1,32 @@
-
 import "../../adminCss/adminUpdateProduct.css";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { makeApi } from "../../api/callApi";
 import Loader from "../../components/loader/loader";
-import axios from "axios";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import uploadToCloudinary from "../../utils/cloudinaryUpload";
+
 function UpdateProduct() {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState([]);
   const { productId } = useParams();
   const [loading, setLoading] = useState(false);
   const [updateloader, setUpdateLoader] = useState(false);
   const [product, setProduct] = useState(null);
+  const [sizes, setSizes] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
-  console.log("----",uploadProgress);
-
-  const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
-
+  const [showConfirm, setShowConfirm] = useState({ show: false, sizeId: null });
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
-    quantity: "", 
+    quantity: "",
     category: "",
     brand: "",
     image: [],
     thumbnail: "",
     discountPercentage: "",
     productType: "",
+    Tax: "",
+    PriceAfterDiscount: "",
   });
 
   useEffect(() => {
@@ -37,18 +34,25 @@ function UpdateProduct() {
       try {
         setLoading(true);
         const response = await makeApi(`/api/get-single-product/${productId}`, "GET");
-        setProduct(response.data.product);
+
+        const productData = response.data.product;
+        setProduct(productData);
+        setSizes(response.data.sizes);
+
+        // Set form data with the product details
         setFormData({
-          name: response.data.product.name,
-          description: response.data.product.description,
-          price: response.data.product.price,
-          quantity: response.data.product.quantity,
-          category: response.data.product.category,
-          brand: response.data.product.brand,
-          image: response.data.product.image,
-          thumbnail: response.data.product.thumbnail,
-          discountPercentage: response.data.product.discountPercentage,
-          productType: response.data.product.productType,
+          name: productData.name,
+          description: productData.description,
+          price: productData.price,
+          quantity: productData.quantity,
+          category: productData.category._id,
+          brand: productData.brand,
+          image: productData.image,
+          thumbnail: productData.thumbnail,
+          discountPercentage: productData.discountPercentage,
+          productType: productData.productType,
+          Tax: productData.Tax,
+          PriceAfterDiscount: productData.PriceAfterDiscount,
         });
       } catch (error) {
         console.error("Error fetching product details:", error);
@@ -66,12 +70,61 @@ function UpdateProduct() {
     });
   };
 
+  const handleSizeChange = (e, index, field) => {
+    const updatedSizes = [...sizes];
+    updatedSizes[index][field] = e.target.value;
+    setSizes(updatedSizes);
+  };
+
+  const handleAddMoreSizes = () => {
+    setSizes([...sizes, { size: "", sizetype: "", quantity: "" }]);
+  };
+
+  const handleDeleteSize = async (sizeId) => {
+    try {
+      await makeApi(`/api/delete-productsize/${sizeId}`, "DELETE");
+      setSizes(sizes.filter((size) => size._id !== sizeId));
+      setShowConfirm({ show: false, sizeId: null });
+    } catch (error) {
+      console.error("Error deleting size:", error);
+    }
+  };
+
+  const handleImageUpload = async (e, type) => {
+    const file = e.target.files[0];
+    try {
+      const url = await uploadToCloudinary(file, setUploadProgress);
+      if (type === "thumbnail") {
+        setFormData({ ...formData, thumbnail: url });
+      } else {
+        setFormData({ ...formData, image: [...formData.image, url] });
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
+  const handleImageRemove = (index) => {
+    const updatedImages = formData.image.filter((_, i) => i !== index);
+    setFormData({ ...formData, image: updatedImages });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setUpdateLoader(true);
-      const updateProduct = await makeApi(`/api/update-product/${productId}`, "PUT", formData);
-      console.log("Product updated successfully!", updateProduct);
+      await makeApi(`/api/update-product/${productId}`, "PUT", formData);
+      for (const size of sizes) {
+        if (size._id) {
+          await makeApi(`/api/update-productsize/${size._id}`, "PUT", size);
+        } else {
+          await makeApi(`/api/add-productsize`, "POST", {
+            productId,
+            ...size,
+          });
+        }
+      }
+      console.log("Product updated successfully!");
       navigate("/admin/allproducts");
     } catch (error) {
       console.error("Error updating product:", error);
@@ -79,128 +132,6 @@ function UpdateProduct() {
       setUpdateLoader(false);
     }
   };
-
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        setLoading(true);
-        const response = await makeApi("/api/get-all-categories", "GET");
-        if (response.status === 200) {
-          setCategories(response.data.categories);
-        }
-      } catch (error) {
-        console.log("Error fetching categories:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchCategories();
-  }, []);
-
-  const removeImage = (indexToRemove) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      image: prevFormData.image.filter((_, index) => index !== indexToRemove),
-    }));
-  };
-
-  const handleAddMoreImages = () => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      image: [...prevFormData.image, ""],
-    }));
-  };
-
-  const handleImageUpload = async (event, index) => {
-    try {
-      const file = event.target.files[0];
-      if (file) {
-
-        const uploadedImageUrl = await uploadToCloudinary(file, setUploadProgress);
-
-        // const compressedFile = await file;
-
-        // const data = new FormData(); 
-        // data.append("file", compressedFile);
-        // data.append("upload_preset", "wnsxe2pa");
-        // data.append("upload_preset", "wnsxe2pa");
-
-        // const response = await axios.post(
-          // `https://api.cloudinary.com/v1_1/dzvsrft15/image/upload`,
-          // data,
-          // {
-          //   onUploadProgress: (progressEvent) => {
-          //     const percentCompleted = Math.round(
-          //       (progressEvent.loaded * 100) / progressEvent.total
-          //     );
-          //     setUploadProgress((prevProgress) => ({
-          //       ...prevProgress,
-          //       [index]: percentCompleted,
-          //     }));
-          //   },
-          // }
-        // );
-
-
-        // if (response.status === 200) {
-          // const imageUrl = response.data.url;
-          const imageUrl = uploadedImageUrl;
-    
-          setFormData((prevFormData) => {
-            const updatedImages = [...prevFormData.image];
-            updatedImages[index] = imageUrl;
-            return {
-              ...prevFormData,
-              image: updatedImages,
-            };
-          });
-        // }
-      }
-    } catch (error) {
-      console.log("Image upload error", error);
-    }
-  };
-
-  const handleThumbnailUpload = async (event) => {
-    try {
-      const file = event.target.files[0];
-      if (file) {
-        
-
-        // const compressedFile = await file;
-
-        // const data = new FormData();
-        // data.append("file", compressedFile);
-        // data.append("upload_preset", "wnsxe2pa");
-
-        // const response = await axios.post(
-        //   `https://api.cloudinary.com/v1_1/dzvsrft15/image/upload`,
-        //   data,
-        //   {
-        //     onUploadProgress: (progressEvent) => {
-        //       const percentCompleted = Math.round(
-        //         (progressEvent.loaded * 100) / progressEvent.total
-        //       );
-        //       setThumbnailUploadProgress(percentCompleted);
-        //     },
-        //   }
-        // );
-        const uploadedImageUrl = await uploadToCloudinary(file, setUploadProgress);
-
-        // if (response.status === 200) {
-          // const imageUrl = response.data.url;
-          const imageUrl = uploadedImageUrl;
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            thumbnail: imageUrl,
-          }));
-        // }
-      }
-    } catch (error) {
-      console.log("Thumbnail upload error", error);
-    }
-  };
-
 
   return (
     <>
@@ -229,159 +160,238 @@ function UpdateProduct() {
           <div className="update-product-container">
             <h2>Update Product</h2>
             <form onSubmit={handleSubmit}>
-              <div>
-                <label>Name:</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData?.name}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <select
-                  className="add_product_input_filed"
-                  value={formData?.productType}
-                  onChange={handleChange}
-                  name="productType"
-                  defaultValue={formData?.productType}
-                >
-                  <option value="Domestic">Domestic</option>
-                  <option value="International">International</option>
-                </select>
-              </div>
-              <div>
-                <label>Description:</label>
-                <textarea
-                  name="description"
-                  value={formData?.description}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label>Price:</label>
-                <input
-                  type="number"
-                  name="price"
-                  value={formData?.price}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label>Discount Percentage:</label>
-                <input
-                  type="number"
-                  name="discountPercentage"
-                  value={formData?.discountPercentage}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label>Quantity:</label>
-                <input
-                  type="number"
-                  name="quantity"
-                  value={formData?.quantity}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label>Category:</label>
-            {/* <h1>{formData.category}</h1> */}
-
-                <select
-                  className="add_product_input_filed add_product_dropdown"
-                  value={formData?.category.name}
-                  defaultValue={formData?.category.name}
-                  name="category"
-                  onChange={handleChange}
-                >
-                  <option value={formData?.category._id}>{formData?.category.name}</option>
-                  {categories.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label>Brand:</label>
-                <input
-                  type="text"
-                  name="brand"
-                  value={formData?.brand}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="update_product_Image_section">
-                <label>Images:</label>
-                {formData?.image.map((imageUrl, index) => (
-                  <div
-                    key={index}
-                    className="update_image_container_single_image"
-                  >
-                    {imageUrl && (
-                      <LazyLoadImage
-                        src={imageUrl}
-                        alt={`Product ${index + 1}`}
-                        width="100"
-                      />
-                    )}
-                    <input
-                      type="file"
-                      name={`image_${index}`}
-                      onChange={(event) => handleImageUpload(event, index)}
-                    />
-                    <h6>{uploadProgress}</h6>
-                    {uploadProgress[index] && (
-                      <progress value={uploadProgress[index]} max="100" />
-                    )}
-                    <button type="button" onClick={() => removeImage(index)}>
-                      Remove
-                    </button>
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  className="admin_panel_button add_more_image_button"
-                  onClick={handleAddMoreImages}
-                >
-                  Add More Images
-                </button>
-              </div>
-              <div>
-                <label>Thumbnail:</label>
-                <input
-                  type="file"
-                  name="thumbnail"
-                  onChange={handleThumbnailUpload}
-                />
-                {formData?.thumbnail && (
-                  <LazyLoadImage
-                    src={formData?.thumbnail}
-                    alt="Thumbnail"
-                    width="100"
+              {/* General Information Section */}
+              <div className="form-section">
+                <h3>General Information</h3>
+                <div className="form-group">
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                   />
-                )}
-                {thumbnailUploadProgress > 0 && (
-                  <progress value={thumbnailUploadProgress} max="100" />
-                )}
+                </div>
+                <div className="form-group">
+                  <label>Description:</label>
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
-              <div>
-                <button type="submit" className="admin_panel_button">
-                  {updateloader ? (
-                    <div
-                      className="spinner-border text-light"
-                      style={{ height: "20px", width: "20px" }}
-                      role="status"
+
+              {/* Pricing Section */}
+              <div className="form-section">
+                <h3>Pricing</h3>
+                <div className="form-group">
+                  <label>Price:</label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Price After Discount:</label>
+                  <input
+                    type="number"
+                    name="PriceAfterDiscount"
+                    value={formData.PriceAfterDiscount}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Tax:</label>
+                  <input
+                    type="number"
+                    name="Tax"
+                    value={formData.Tax}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Discount Percentage:</label>
+                  <input
+                    type="number"
+                    name="discountPercentage"
+                    value={formData.discountPercentage}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              {/* Stock & Quantity Section */}
+              <div className="form-section">
+                <h3>Stock & Quantity</h3>
+                <div className="form-group">
+                  <label>Quantity:</label>
+                  <input
+                    type="number"
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Category:</label>
+                  <input
+                    type="text"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    disabled
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Brand:</label>
+                  <input
+                    type="text"
+                    name="brand"
+                    value={formData.brand}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Product Type:</label>
+                  <input
+                    type="text"
+                    name="productType"
+                    value={formData.productType}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              {/* Sizes Section */}
+              <div className="form-section">
+                <h3>Sizes</h3>
+                <div className="size-section">
+                  {sizes.map((size, index) => (
+                    <div key={index} className="size-row">
+                      <input
+                        type="text"
+                        name={`size_${index}`}
+                        value={size.size}
+                        placeholder="Size"
+                        onChange={(e) => handleSizeChange(e, index, "size")}
+                      />
+                      <input
+                        type="text"
+                        name={`sizetype_${index}`}
+                        value={size.sizetype}
+                        placeholder="Size Type"
+                        onChange={(e) => handleSizeChange(e, index, "sizetype")}
+                      />
+                      <input
+                        type="number"
+                        name={`quantity_${index}`}
+                        value={size.quantity}
+                        placeholder="Quantity"
+                        onChange={(e) => handleSizeChange(e, index, "quantity")}
+                      />
+                      {size._id && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowConfirm({ show: true, sizeId: size._id })
+                          }
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className="add-more-sizes-button"
+                    onClick={handleAddMoreSizes}
+                  >
+                    Add More Sizes
+                  </button>
+                </div>
+              </div>
+
+              {/* Images Section */}
+              <div className="form-section">
+                <h3>Images</h3>
+                <div className="update_product_Image_section">
+                  <label>Thumbnail:</label>
+                  <input
+                    type="file"
+                    onChange={(e) => handleImageUpload(e, "thumbnail")}
+                  />
+                  {formData.thumbnail && (
+                    <img
+                      src={formData.thumbnail}
+                      alt="Thumbnail"
+                      className="update_product_image_thumbnail"
                     />
-                  ) : (
-                    "Update Product"
                   )}
+                </div>
+
+                <div className="update_product_Image_section">
+                  <label>Product Images:</label>
+                  {formData.image.map((img, index) => (
+                    <div key={index} className="image_wrapper">
+                      <img src={img} alt={`Product ${index}`} />
+                      <button
+                        type="button"
+                        className="remove_image_button"
+                        onClick={() => handleImageRemove(index)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                  <input
+                    type="file"
+                    onChange={(e) => handleImageUpload(e, "image")}
+                  />
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="form-section">
+                <button
+                  type="submit"
+                  className="admin_panel_button"
+                  disabled={updateloader}
+                >
+                  {updateloader ? <Loader /> : "Update Product"}
                 </button>
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* Confirm Delete Size Popup */}
+      {showConfirm.show && (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#fff",
+            padding: "20px",
+            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+            zIndex: 1000,
+          }}
+        >
+          <p>Are you sure you want to delete this size?</p>
+          <button
+            onClick={() => handleDeleteSize(showConfirm.sizeId)}
+            style={{ marginRight: "10px" }}
+          >
+            Yes
+          </button>
+          <button onClick={() => setShowConfirm({ show: false, sizeId: null })}>
+            No
+          </button>
         </div>
       )}
     </>

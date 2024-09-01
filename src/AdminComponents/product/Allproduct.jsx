@@ -197,7 +197,6 @@ const Allproduct = () => {
                     <h3>{product.name}</h3>
                     <p>Price: ₹{product.price}</p>
                     <p>Stock: {product.quantity}</p>
-                    <p>Brand: {product.brand}</p>
                     <p>Brand: {product?.category?.name}</p>
                     <p>Brand: {product?.productType}</p>
                   </div>
