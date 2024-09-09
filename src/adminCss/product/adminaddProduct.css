@@ -69,6 +69,13 @@ display: flex;
 gap: 10px;
 margin-bottom: 10px;
 }
+.size-wrapper input {
+width: 100%;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+
+}
 
 /* Buttons */
 .admin_add_product_button {

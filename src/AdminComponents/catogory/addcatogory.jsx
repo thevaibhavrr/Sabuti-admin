@@ -17,7 +17,7 @@ const Addcatogory = () => {
       //   const response = await axios.post('/api/add-category', { name, description });
       const response = await makeApi("/api/create-category", "POST", {
         name,
-        description,
+        description, 
         thumbnail,
       });
       if (response.status === 201) {
@@ -97,7 +97,6 @@ const Addcatogory = () => {
               type="file"
               name="file"
               id="file"
-              className="file-upload-input"
               onChange={handleThumbnailUpload}
             />
           </div>
