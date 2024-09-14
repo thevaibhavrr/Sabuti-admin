@@ -89,6 +89,7 @@ function AllOrder() {
                         <div>
                           <p><b>Name:</b> {item?.productId?.name}</p>
                           <p><b>Price:</b> {item?.singleProductPrice}</p>
+                          <p><b>Size:</b> {item?.size?.size} {item?.size.sizetype} </p>
                         </div>
                       </div>
                     ))}

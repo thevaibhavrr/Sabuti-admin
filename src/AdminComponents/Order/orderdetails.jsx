@@ -199,7 +199,7 @@ function Orderdetails() {
               <h3>Order Items</h3>
               <div className="order_item_div_section_div" >
                 {order?.CartId?.orderItems?.map((item, index) => (
-                  <div key={index} className="order_item_details_div" >
+                  <div key={index} className="order_item_details_div p-4" >
                     <img loading="lazy"
                       src={item?.productId?.thumbnail}
                       alt="Product"
@@ -211,17 +211,18 @@ function Orderdetails() {
                     <p>
                       <b>Price:</b> {item?.productId?.price}
                     </p>
+                    <p><b>Size:</b> {item?.size?.size} {item?.size.sizetype} </p>
+
                     <p>
                       <b>Quantity:</b> {item?.quantity}
                     </p>
                     <p>
                       <b>Total Price:</b> {item?.totalPrice}
                     </p>
+                    
                     <p>
-                      <b>Brand:</b> {item?.productId?.brand}
-                    </p>
-                    <p>
-                      <b>Product Id:</b> {item?._id}
+                      
+                      <b>Product Id:</b> <Link to={`/admin/product-details/${item?.productId._id}`} target="_blank" >View</Link>
                     </p>
                   </div>
                 ))}
