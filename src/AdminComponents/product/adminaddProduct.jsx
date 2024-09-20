@@ -65,8 +65,8 @@ function AdminaddProduct() {
     e.preventDefault();
     const requiredFields = [];
     if (!name) requiredFields.push("Name");
-    if (!price) requiredFields.push("Price");
-    if (!quantity) requiredFields.push("Quantity");
+    // if (!price) requiredFields.push("Price");
+    // if (!quantity) requiredFields.push("Quantity");
     if (!category) requiredFields.push("Category");
     if (!thumbnail) requiredFields.push("Thumbnail");
     if (!productType) requiredFields.push("Product Type");
