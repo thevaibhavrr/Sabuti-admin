@@ -207,7 +207,7 @@ function AdminaddProduct() {
         </div>
   
         {/* Pricing & Quantity */}
-        <div className="section-wrapper">
+        {/* <div className="section-wrapper">
           <h3>Pricing & Quantity</h3>
           <input
             type="number"
@@ -230,7 +230,7 @@ function AdminaddProduct() {
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
           />
-        </div>
+        </div> */}
   
         {/* Product Sizes */}
         <div className="section-wrapper">

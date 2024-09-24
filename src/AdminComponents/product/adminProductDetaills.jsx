@@ -101,35 +101,40 @@ function ProductDetails() {
                   <p>{product.description}</p>
                 </section>
 
-                <section className="product-pricing-section">
+                {/* <section className="product-pricing-section">
                   <h3>Pricing</h3>
                   <p><strong>Price:</strong> ₹{product.price}</p>
                   <p><strong>Price After Discount:</strong> ₹{product.PriceAfterDiscount}</p>
                   <p><strong>Discount Percentage:</strong> {product.discountPercentage}%</p>
                   <p><strong>Tax:</strong> {product.Tax * 100}%</p>
-                </section>
+                </section> */}
 
-                <section className="product-stock-section">
+                {/* <section className="product-stock-section">
                   <h3>Stock & Quality</h3>
                   <p><strong>Quantity:</strong> {product.quantity}</p>
                   <p><strong>Sizes Available:</strong> {product.Size.length > 0 ? product.Size.join(", ") : "N/A"}</p>
                   <p><strong>Is Out Of Stock:</strong> {product.IsOutOfStock ? 'Yes' : 'No'}</p>
-                </section>
+                </section> */}
 
                 <div className="product-pricing-section">
-                    <h3>Sizes:</h3>
-                    {sizes.length > 0 ? (
-                      sizes.map((sizeDetail, index) => (
-                        <div key={index} className={`product-size-item ${sizeDetail.quantity === 20 ? 'out-of-stock-size' : 'in' }`}>
-                          
-                          <p><strong>Size:</strong> {sizeDetail.size} {sizeDetail.sizetype}</p>
-                          <p><strong>Quantity:</strong> {sizeDetail.quantity}</p>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No sizes available.</p>
-                    )}
-                  </div>
+                  <h3>Sizes:</h3>
+                  {sizes.length > 0 ? (
+                    sizes.map((sizeDetail, index) => (
+                      <div key={index} className={`product-size-item ${sizeDetail.quantity === 20 ? 'out-of-stock-size' : 'in'}`}>
+
+                        <p><strong>Size:</strong> {sizeDetail.size} {sizeDetail.sizetype}</p>
+                        <p><strong>Quantity:</strong> {sizeDetail.quantity}</p>
+
+                        <p><strong>Final :</strong> {sizeDetail.price}</p>
+                        <p> <strong>Discount Percentage:</strong> {sizeDetail.discountPercentage}% </p>
+                        <p> <strong>Price After Discount:</strong> {sizeDetail.FinalPrice} </p>
+
+                      </div>
+                    ))
+                  ) : (
+                    <p>No sizes available.</p>
+                  )}
+                </div>
 
                 <section className="product-additional-section">
                   <h3>Additional Details</h3>

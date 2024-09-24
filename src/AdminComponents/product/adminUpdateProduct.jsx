@@ -183,7 +183,7 @@ function UpdateProduct() {
               </div>
 
               {/* Pricing Section */}
-              <div className="form-section">
+              {/* <div className="form-section">
                 <h3>Pricing</h3>
                 <div className="form-group">
                   <label>Price:</label>
@@ -221,12 +221,12 @@ function UpdateProduct() {
                     onChange={handleChange}
                   />
                 </div>
-              </div>
+              </div> */}
 
               {/* Stock & Quantity Section */}
               <div className="form-section">
                 <h3>Stock & Quantity</h3>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label>Quantity:</label>
                   <input
                     type="number"
@@ -234,7 +234,7 @@ function UpdateProduct() {
                     value={formData.quantity}
                     onChange={handleChange}
                   />
-                </div>
+                </div> */}
                 <div className="form-group">
                   <label>Category:</label>
                   <input
@@ -254,7 +254,7 @@ function UpdateProduct() {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label>Product Type:</label>
                   <input
                     type="text"
@@ -262,7 +262,7 @@ function UpdateProduct() {
                     value={formData.productType}
                     onChange={handleChange}
                   />
-                </div>
+                </div> */}
               </div>
 
               {/* Sizes Section */}

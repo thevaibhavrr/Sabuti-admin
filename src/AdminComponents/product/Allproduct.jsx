@@ -134,7 +134,7 @@ const Allproduct = () => {
             </select>
           </div>
           {/* in a stock */}
-          <div>
+          {/* <div>
             <select
               className="add_product_input_filed add_product_dropdown"
               value={stockQuery}
@@ -144,8 +144,8 @@ const Allproduct = () => {
               <option value="false">In a stock</option>
               <option value="true">Out of stock</option>
             </select>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <select
               className="add_product_input_filed add_product_dropdown"
               value={productType}
@@ -155,7 +155,7 @@ const Allproduct = () => {
               <option value="International">International</option>
               <option value="Domestic">Domestic</option>
             </select>
-          </div>
+          </div> */}
           <div>
             <select
               className="add_product_input_filed add_product_dropdown"
@@ -191,12 +191,13 @@ const Allproduct = () => {
                   <LazyLoadImage effect="blur" loading="lazy"
                     src={product.thumbnail}
                     alt={product.name}
-                    className={product.quantity === 0 ? "bw-image admin_page_product_thumbnail" : "admin_page_product_thumbnail"}
+                    // className={product.quantity === 0 ? "bw-image admin_page_product_thumbnail" : "admin_page_product_thumbnail"}
+                    className={"admin_page_product_thumbnail"}
                   />
                   <div className="product-info">
                     <h3>{product.name}</h3>
                     <p>Price: ₹{product.price}</p>
-                    <p>Stock: {product.quantity}</p>
+                    {/* <p>Stock: {product.quantity}</p> */}
                     <p>Brand: {product?.category?.name}</p>
                     <p>Brand: {product?.productType}</p>
                   </div>
