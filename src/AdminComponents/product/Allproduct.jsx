@@ -196,10 +196,10 @@ const Allproduct = () => {
                   />
                   <div className="product-info">
                     <h3>{product.name}</h3>
-                    <p>Price: ₹{product.price}</p>
+                    {/* <p>Price: ₹{product.price}</p> */}
                     {/* <p>Stock: {product.quantity}</p> */}
                     <p>Brand: {product?.category?.name}</p>
-                    <p>Brand: {product?.productType}</p>
+                    {/* <p>Brand: {product?.productType}</p> */}
                   </div>
                   <div className="all_products_page_button">
                     <Link to={`/admin/product-update/${product._id}`}>
