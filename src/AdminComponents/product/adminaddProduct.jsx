@@ -376,14 +376,14 @@ function AdminaddProduct() {
         {/* Additional Details */}
         <div className="section-wrapper">
           <h3>Additional Details</h3>
-          <select
+          {/* <select
             className="add_product_input_filed"
             value={productType}
             onChange={(e) => setProductType(e.target.value)}
           >
             <option value="Domestic">Domestic</option>
             <option value="International">International</option>
-          </select>
+          </select> */}
           <select
             className="add_product_input_filed"
             value={category}
@@ -396,13 +396,13 @@ function AdminaddProduct() {
               </option>
             ))}
           </select>
-          <input
+          {/* <input
             type="text"
             className="add_product_input_filed"
             placeholder="Brand"
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
-          />
+          /> */}
          
         </div>
   
