@@ -198,7 +198,6 @@ const Allproduct = () => {
                     <h3>{product.name}</h3>
                     {/* <p>Price: ₹{product.price}</p> */}
                     {/* <p>Stock: {product.quantity}</p> */}
-                    <p>Brand: {product?.category?.name}</p>
                     {/* <p>Brand: {product?.productType}</p> */}
                   </div>
                   <div className="all_products_page_button">

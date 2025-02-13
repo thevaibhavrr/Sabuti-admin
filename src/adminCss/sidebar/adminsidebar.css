@@ -1,43 +1,5 @@
-/* .main_admin_sidebar{
-    background: var(--gay-bg-color);
-    max-width: 200px;
-    height: 100vh;
-}
-.admin_sidebar{
-    padding: 10px 0px;
-}
-.admin_sidebar_header_logo_img{
-}
 
 
-
-.admin_sidebar_menu_list{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    font-size: 22px;
-    color: var(--main-white-color);
-    padding-left: 10px;
-}
-.admin_sidebar_menu_items{
-    width: 100%;
-    padding: 30px;
-    border-radius: 20px 0px  0px  20px ;
-    cursor: pointer;
-    transition: all 0.4s ease-out;
-    
-}
-
-.admin_sidebar_menu_items:hover{
-    background: white;
-    color: black;
-}
-.admin_sidebar_menu_items.selected {
-    background: white;
-    color: black;
-} */
-
-/* adminsidebar.css */
 .main_admin_sidebar {
     width: 240px;
     background-color: var(--primary-color);
